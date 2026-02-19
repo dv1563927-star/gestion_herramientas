@@ -1,0 +1,270 @@
+from gestionarJson import guardar, cargar, generar_id
+from datetime import datetime, timedelta, date
+from gestionarUsuarios import listar_usuarios
+from gestionarHerramientas import listar_herramienta
+from validaciones import validarEntero, validarMenu
+
+PRESTAMOS="prestamos.json"
+HERRAMIENTAS="herramientas.json"
+USUARIOS="usuarios.json"
+
+def crear_solicitud_prestamo():
+    prestamos = cargar(PRESTAMOS)
+    herramientas = cargar(HERRAMIENTAS)
+
+    print("\n--- USUARIOS DISPONIBLES ---")
+    listar_usuarios()
+
+    id_usuario = validarEntero('Ingrese el ID del usuario: ')
+    while id_usuario is None:
+        id_usuario = validarEntero('Error, intentelo nuevamente: ')
+
+    print('\n--- HERRAMIENTAS DISPONIBLES ---')
+    listar_herramienta()
+
+    id_herramienta = validarEntero('Ingrese el ID de la herramienta: ')
+    while id_herramienta is None:
+        id_herramienta = validarEntero('Error, intentelo nuevamente: ')
+
+    herramienta_encontrada = None
+    for herramienta in herramientas:
+        if herramienta["id"] == id_herramienta:
+            herramienta_encontrada = herramienta
+            break
+
+    if herramienta_encontrada is None:
+        print("Herramienta no encontrada.")
+        return
+
+    if herramienta_encontrada["estado de la herramienta"] == "mal estado":
+        print("La herramienta esta dañada y no esta disponible.")
+        return
+
+    cantidad_solicitada = validarEntero("Ingrese la cantidad que necesita: ")
+    while cantidad_solicitada is None or cantidad_solicitada <= 0:
+        cantidad_solicitada = validarEntero("Error, ingrese una cantidad valida: ")
+
+    if herramienta_encontrada["stock"] < cantidad_solicitada:
+        print("No hay suficiente stock para realizar la solicitud.")
+        return
+
+    dias = validarEntero('Ingrese la cantidad de dias que necesita la herramienta: ')
+    while dias is None or dias <= 0:
+        dias = validarEntero('Error, intentelo nuevamente: ')
+
+    fecha_inicio = datetime.now()
+    fecha_fin = fecha_inicio + timedelta(days=dias)
+
+    nuevo_prestamo = {
+        "id": generar_id(prestamos),
+        "id_usuario": id_usuario,
+        "id_herramienta": id_herramienta,
+        "cantidad": cantidad_solicitada,
+        "fecha_inicio": str(fecha_inicio.isoformat()),
+        "fecha_fin": str(fecha_fin.isoformat()),
+        "estado": "pendiente"
+    }
+
+    prestamos.append(nuevo_prestamo)
+    guardar(PRESTAMOS, prestamos)
+
+    print("Solicitud de prestamo creada con exito!")
+
+def listar_prestamos():
+    prestamos=cargar(PRESTAMOS)
+    usuarios=cargar(USUARIOS)
+    herramientas=cargar(HERRAMIENTAS)
+
+    for prestamo in prestamos:
+        nombre_usuario=""
+        nombre_herramienta=""
+
+    for usuario in usuarios:
+        if usuario["id"]==prestamo["id_usuario"]:
+            nombre_usuario=usuario["nombre"]
+            break
+
+    for herramienta in herramientas:
+        if herramienta["id"]==prestamo["id_herramienta"]:
+            nombre_herramienta=herramienta["nombre"]
+            break
+
+    if not prestamos:
+        print("No hay prestamos guardados.")
+        return
+    
+    for elemento in prestamos:
+        print(f'''
+            =============================================
+            ID Prestamo: {elemento["id"]}
+            ID Usuario: {nombre_usuario} ID: {elemento["id"]}
+            ID Herramienta: {nombre_herramienta} ID: {elemento["id_herramienta"]}
+            Fecha inicio: {elemento["fecha_inicio"]}
+            Fecha fin: {elemento["fecha_fin"]}
+            Estado: {elemento["estado"]}
+            =============================================
+            ''')
+        
+def devolver_prestamo():
+    prestamos=cargar(PRESTAMOS)
+    herramientas=cargar(HERRAMIENTAS)
+    usuarios=cargar(USUARIOS)
+    
+    prestamos_activos=[]
+
+    for prestamo in prestamos:
+        if prestamo["estado"]=="activo":
+            prestamos_activos.append(prestamo)
+    
+    if not prestamos_activos:
+        print("No hay prestamos activos para devolver.")
+        return
+    
+    print("Prestamos activos: ")
+    for prestamo in prestamos_activos:
+
+        nombre_usuario= "Desconocido"
+        nombre_herramienta="Desconocida"
+
+        for usuario in usuarios:
+            if usuario["id"]==prestamo["id_usuario"]:
+                nombre_usuario = usuario["nombre"]
+                break
+
+        for herramienta in herramientas:
+            if herramienta["id"]==prestamo["id_herramienta"]:
+                nombre_herramienta = herramienta["nombre"]
+                break
+
+        print(f'''  
+                ID: {prestamo["id"]}
+                Usuario: {nombre_usuario} ID: {prestamo["id_usuario"]}
+                Herramienta: {nombre_herramienta} ID: {prestamo["id_herramienta"]}
+                cantidad: {prestamo["cantidad"]}
+                ''')
+
+    id_prestamo=validarEntero('Ingrese el ID del prestamo a devolver: ')
+    while id_prestamo==None:
+        id_prestamo=validarEntero('Error, intentelo nuevamente: ')
+
+    for prestamo in prestamos_activos:
+        if prestamo["id"]== id_prestamo:
+            
+            print(f'Cantidad prestada: {prestamo["cantidad"]}')
+            cantidad_devuelta=validarEntero('Ingrese la cantidad de herramientas que va a devolver: ')
+            while cantidad_devuelta is None or cantidad_devuelta <=0 or cantidad_devuelta>prestamo["cantidad"]:
+                cantidad_devuelta=validarEntero(f"Error, ingrese un numero valido (max {prestamo['cantidad']}): ")
+
+
+            estado_entregado=validarMenu('''
+                        Ingrese el estado en el que devuelve la herramienta
+                        1.  Buen estado
+                        2.  Mal estado
+                        ''',1,2)
+            
+            for herramienta in herramientas:
+                if herramienta["id"]==prestamo["id_herramienta"]:
+
+                    if estado_entregado==1:
+                        herramienta["stock"]+= cantidad_devuelta
+                    if estado_entregado==2:
+                        herramienta["estado"]="mal estado"
+                    break
+
+            prestamo["cantidad"]-=cantidad_devuelta
+            if prestamo["cantidad"]==0:
+                prestamo["estado"]="devuelto"
+
+            guardar(PRESTAMOS, prestamos)
+            guardar(HERRAMIENTAS, herramientas)
+
+            print(f'Prestamo actualizado correctamente. Cantidad restante: {prestamo["cantidad"]}')
+            return
+    print('Prestamo no encontrado o ya devuelto.')
+
+def verificar_vencidos():
+    prestamos=cargar(PRESTAMOS)
+    hoy=datetime.today().date()
+
+    for elemento in prestamos:
+        fecha_fin = datetime.fromisoformat(elemento["fecha_fin"]).date()
+
+        if elemento["estado"]=="activo" and hoy>fecha_fin:
+            print(f'El prestamo {elemento["id"]} esta VENCIDO.')
+
+def gestion_prestamos_admin():
+    prestamos=cargar(PRESTAMOS)
+    herramientas=cargar(HERRAMIENTAS)
+    usuarios=cargar(USUARIOS)
+
+    pendientes=[]
+
+    for prestamo in prestamos:
+        if prestamo["estado"]=="pendiente":
+            pendientes.append(prestamo)
+
+    if not pendientes:
+        print('No hay prestamos pendientes.')
+        return
+    
+    for prestamo in prestamos:
+        nombre_usuario=""
+        nombre_herramienta=""
+
+    for usuario in usuarios:
+        if usuario["id"]==prestamo["id_usuario"]:
+            nombre_usuario=usuario["nombre"]
+            break
+
+    for herramienta in herramientas:
+        if herramienta["id"]==prestamo["id_herramienta"]:
+            nombre_herramienta=herramienta["nombre"]
+            break
+
+    print("---PRESTAMOS PENDIENTES---")
+    for prestamo in pendientes:
+        print(f'''
+            =================================================================
+            ID: {prestamo["id"]}
+            Usuario: {nombre_usuario} ID: {prestamo["id_usuario"]}
+            Herramienta: {nombre_herramienta} ID: {prestamo["id_herramienta"]}
+            Cantidad: {prestamo["cantidad"]}
+            Fecha fin: {prestamo["fecha_fin"]}
+            Estado: {prestamo["estado"]}
+            =================================================================       
+            ''')
+        
+    id_prestamo=validarEntero('Ingrese el ID del prestamo a gestionar: ')
+    while id_prestamo==None:
+        id_prestamo=validarEntero('Error, intentelo nuevamente: ')
+
+    for prestamo in pendientes:
+        if prestamo["id"]==id_prestamo and prestamo["estado"]=="pendiente":
+            op=validarMenu('''  
+                    Porfavor esoja una opcion para el prestamo
+                    1.  Aprobar prestamo
+                    2.  Rechazar prestamo
+                        ''',1,2)
+            if op==1:
+                for herramienta in herramientas:
+                    if herramienta["id"]==prestamo["id_herramienta"]:
+                        if herramienta["estado de la herramienta"]=="mal estado":
+                            print("La herramienta esta dañada, no se puede aprobar")
+                            return
+                        if herramienta["stock"]<prestamo["cantidad"]:
+                            print("No hay stock suficiente")
+                            return
+                            
+                        herramienta["stock"]-=prestamo["cantidad"]
+                        prestamo["estado"]="activo"
+                        print("Prestamo aprobado con exito!")
+                        break
+            elif op==2:
+                prestamo["estado"]="rechazado"
+                print("Prestamo rechazado")
+
+            guardar(PRESTAMOS, prestamos)
+            guardar(HERRAMIENTAS, herramientas)
+            return
+    print("Prestamo no encontrado.")
+
