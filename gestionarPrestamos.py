@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, date
 from gestionarUsuarios import listar_usuarios
 from gestionarHerramientas import listar_herramienta
 from validaciones import validarEntero, validarMenu
+from logs import guardarLog
 
 PRESTAMOS="prestamos.json"
 HERRAMIENTAS="herramientas.json"
@@ -67,6 +68,7 @@ def crear_solicitud_prestamo():
 
     prestamos.append(nuevo_prestamo)
     guardar(PRESTAMOS, prestamos)
+    guardarLog("Guardado","GUARDAR_SOLICITUD_PRESTAMO","Se realizo la creacion de una solicitud de prestamo para ser revisada por un admin")
 
     print("Solicitud de prestamo creada con exito!")
 
@@ -166,9 +168,11 @@ def devolver_prestamo():
                 if herramienta["id"]==prestamo["id_herramienta"]:
 
                     if estado_entregado==1:
+                        herramienta["estado"]="buen estado"
                         herramienta["stock"]+= cantidad_devuelta
                     if estado_entregado==2:
                         herramienta["estado"]="mal estado"
+                        herramienta["stock"]+=cantidad_devuelta
                     break
 
             prestamo["cantidad"]-=cantidad_devuelta
@@ -177,6 +181,7 @@ def devolver_prestamo():
 
             guardar(PRESTAMOS, prestamos)
             guardar(HERRAMIENTAS, herramientas)
+            guardarLog("Devolucion","DEVOLUCION_PRESTAMO","Se realizo la devolucion de una herramienta prestada")
 
             print(f'Prestamo actualizado correctamente. Cantidad restante: {prestamo["cantidad"]}')
             return
@@ -223,16 +228,19 @@ def gestion_prestamos_admin():
 
     print("---PRESTAMOS PENDIENTES---")
     for prestamo in pendientes:
-        print(f'''
-            =================================================================
-            ID: {prestamo["id"]}
-            Usuario: {nombre_usuario} ID: {prestamo["id_usuario"]}
-            Herramienta: {nombre_herramienta} ID: {prestamo["id_herramienta"]}
-            Cantidad: {prestamo["cantidad"]}
-            Fecha fin: {prestamo["fecha_fin"]}
-            Estado: {prestamo["estado"]}
-            =================================================================       
-            ''')
+        if prestamo["estado"]=="pendiente":
+            print(f'''
+                =================================================================
+                ID: {prestamo["id"]}
+                Usuario: {nombre_usuario} ID: {prestamo["id_usuario"]}
+                Herramienta: {nombre_herramienta} ID: {prestamo["id_herramienta"]}
+                Cantidad: {prestamo["cantidad"]}
+                Fecha fin: {prestamo["fecha_fin"]}
+                Estado: {prestamo["estado"]}
+                =================================================================       
+                ''')
+        else:
+            print("No hay prestamos pendientes.")
         
     id_prestamo=validarEntero('Ingrese el ID del prestamo a gestionar: ')
     while id_prestamo==None:
@@ -248,23 +256,31 @@ def gestion_prestamos_admin():
             if op==1:
                 for herramienta in herramientas:
                     if herramienta["id"]==prestamo["id_herramienta"]:
-                        if herramienta["estado de la herramienta"]=="mal estado":
-                            print("La herramienta esta dañada, no se puede aprobar")
+                        if herramienta.get("estado") == "mal estado":
+                            print("La herramienta no puede prestarse (mal estado).")
+                            prestamo["estado"] = "rechazado"
+                            guardar(PRESTAMOS, prestamos)
                             return
-                        if herramienta["stock"]<prestamo["cantidad"]:
+                        
+                        if herramienta["stock"] < prestamo["cantidad"]:
                             print("No hay stock suficiente")
+                            prestamo["estado"]="rechazado"
+                            guardar(PRESTAMOS, prestamos)
                             return
-                            
-                        herramienta["stock"]-=prestamo["cantidad"]
-                        prestamo["estado"]="activo"
+                        
+                        herramienta["stock"] -= prestamo["cantidad"]
+                        prestamo["estado"] = "activo"
                         print("Prestamo aprobado con exito!")
-                        break
+                        guardar(PRESTAMOS, prestamos)
+                        guardar(HERRAMIENTAS, herramientas)
+                        return
             elif op==2:
                 prestamo["estado"]="rechazado"
                 print("Prestamo rechazado")
 
             guardar(PRESTAMOS, prestamos)
             guardar(HERRAMIENTAS, herramientas)
+            guardarLog("Gestion","GESTION_PRESTAMO","Se realizo la gestion de un prestamo, sea aprobado o rechazado")
             return
     print("Prestamo no encontrado.")
 

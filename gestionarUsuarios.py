@@ -1,5 +1,6 @@
 from gestionarJson import guardar, cargar, generar_id
 from validaciones import validarEntero, validarMenu, nombre_valido
+from logs import guardarLog
 
 USUARIOS="usuarios.json"
 
@@ -32,6 +33,7 @@ def guardar_usuario():
     }
     usuarios.append(nuevo_usuario)
     guardar(USUARIOS, usuarios)
+    guardarLog("Guardado","GUARDADO_USUARIO","Se realizo la creacion de un usuario")
     print("Persona guardada correctamente!")
 
 def listar_usuarios():
@@ -107,6 +109,7 @@ def actualizar_usuario():
                 if op==5:
                     break
             guardar(USUARIOS, usuarios)
+            guardarLog("Actualizacion","ACTUALIZAR_USUARIO","Se realizo la actualizacion del/los atributo/s de un usuario")
             print("Usuario actualizado con exito!")
             return
     print("Usuario no encontrado.\n")
@@ -123,6 +126,7 @@ def eliminar_usuario():
         if id_usuario==elemento["id"]:
             usuarios.pop(contador_aux)
             guardar(USUARIOS, usuarios)
+            guardarLog("Eliminacion","ELIMINAR_USUARIO","Se realizo la eliminacion de un usuario")
             print("Se ha eliminado al usuario correctamente!")
             return
         contador_aux+=1
@@ -147,6 +151,7 @@ def crear_admin_predeterminado():
 
     usuarios.append(admin)
     guardar(USUARIOS, usuarios)
+    guardarLog("Guardar","GUARDADO_ADMIN","Se realizo la creacion de un administrador de forma predeterminada")
     print ("Administrador creado por defecto.")
 
 def login_admin():

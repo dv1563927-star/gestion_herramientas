@@ -1,5 +1,6 @@
 from gestionarJson import cargar, guardar, generar_id
 from validaciones import validarEntero, validarMenu, nombre_valido
+from logs import guardarLog
 
 HERRAMIENTAS="herramientas.json"
 
@@ -50,6 +51,7 @@ def guardar_herramienta():
 
     herramientas.append(nueva_herramienta)
     guardar(HERRAMIENTAS, herramientas)
+    guardarLog("Guardado","GUARDADO_HERRAMIENTA", "Se realizo la creacion de una herramienta")
     print("Herramienta guardada correctamente!")
 
 def listar_herramienta():
@@ -143,6 +145,7 @@ def actualizar_herramienta():
                 if op==5:
                     break
             guardar(HERRAMIENTAS, herramientas)
+            guardarLog("Actualizacion","ACTUALIZAR_HERRAMIENTA", "Se ha realizado la actualizacion de una herramienta")
             print("Herramienta actualizada correctamente!")
             return
         print("Herramienta no encontrada.")
@@ -160,6 +163,7 @@ def eliminar_herramienta():
         if id_herramienta==elemento["id"]:
             herramientas.pop(contador_aux)
             guardar(HERRAMIENTAS, herramientas)
+            guardarLog("Eliminacion","ELIMINACION_HERRAMIENTA","Se realizo la eliminacion de una herramienta")
             print("Se ha eliminado la herramienta correctamente!")
             return
         contador_aux+=1
