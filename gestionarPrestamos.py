@@ -77,9 +77,13 @@ def listar_prestamos():
     usuarios=cargar(USUARIOS)
     herramientas=cargar(HERRAMIENTAS)
 
+    if not prestamos:
+        print("No hay prestamos guardados.")
+        return
+    
     for prestamo in prestamos:
-        nombre_usuario=""
-        nombre_herramienta=""
+        nombre_usuario="Desconocido"
+        nombre_herramienta="Desconocido"
 
     for usuario in usuarios:
         if usuario["id"]==prestamo["id_usuario"]:
@@ -91,10 +95,6 @@ def listar_prestamos():
             nombre_herramienta=herramienta["nombre"]
             break
 
-    if not prestamos:
-        print("No hay prestamos guardados.")
-        return
-    
     for elemento in prestamos:
         print(f'''
             =============================================

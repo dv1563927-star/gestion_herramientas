@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "usuario": "Guardar",
+        "accion": "GUARDADO_ADMIN",
+        "descripcion": "Se realizo la creacion de un administrador de forma predeterminada",
+        "fecha": "2026-02-20 16:38:47.167043"
+    },
+    {
+        "id": 2,
+        "usuario": "Guardado",
+        "accion": "GUARDADO_HERRAMIENTA",
+        "descripcion": "Se realizo la creacion de una herramienta",
+        "fecha": "2026-02-20 16:39:39.719559"
+    },
+    {
+        "id": 3,
+        "usuario": "Eliminacion",
+        "accion": "ELIMINACION_HERRAMIENTA",
+        "descripcion": "Se realizo la eliminacion de una herramienta",
+        "fecha": "2026-02-20 16:40:19.722569"
+    }
+]

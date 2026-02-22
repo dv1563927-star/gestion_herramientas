@@ -1,0 +1,11 @@
+[
+    {
+        "id": 0,
+        "nombre": "Admin",
+        "apellido": "Principal",
+        "telefono": "0000000000",
+        "direccion": "Oficina Junta",
+        "tipo": "administrador",
+        "clave": 1234
+    }
+]
