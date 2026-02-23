@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "id": 1,
+        "nombre": "Hacha de mano",
+        "estado de la herramienta": "Buen estado",
+        "categoria": "Carpiniteria",
+        "stock": 25,
+        "estado": "buen estado"
+    },
+    {
+        "id": 2,
+        "nombre": "martillo",
+        "estado de la herramienta": null,
+        "categoria": null,
+        "stock": 10
+    }
+]

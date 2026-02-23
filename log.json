@@ -19,5 +19,40 @@
         "accion": "ELIMINACION_HERRAMIENTA",
         "descripcion": "Se realizo la eliminacion de una herramienta",
         "fecha": "2026-02-20 16:40:19.722569"
+    },
+    {
+        "id": 4,
+        "usuario": "Guardado",
+        "accion": "GUARDADO_HERRAMIENTA",
+        "descripcion": "Se realizo la creacion de una herramienta",
+        "fecha": "2026-02-22 07:41:44.717374"
+    },
+    {
+        "id": 5,
+        "usuario": "Guardado",
+        "accion": "GUARDADO_USUARIO",
+        "descripcion": "Se realizo la creacion de un usuario",
+        "fecha": "2026-02-22 07:42:07.793115"
+    },
+    {
+        "id": 6,
+        "usuario": "Guardado",
+        "accion": "GUARDAR_SOLICITUD_PRESTAMO",
+        "descripcion": "Se realizo la creacion de una solicitud de prestamo para ser revisada por un admin",
+        "fecha": "2026-02-22 07:42:29.948355"
+    },
+    {
+        "id": 7,
+        "usuario": "Devolucion",
+        "accion": "DEVOLUCION_PRESTAMO",
+        "descripcion": "Se realizo la devolucion de una herramienta prestada",
+        "fecha": "2026-02-22 07:43:23.509379"
+    },
+    {
+        "id": 8,
+        "usuario": "Guardado",
+        "accion": "GUARDADO_HERRAMIENTA",
+        "descripcion": "Se realizo la creacion de una herramienta",
+        "fecha": "2026-02-23 10:56:59.018390"
     }
 ]

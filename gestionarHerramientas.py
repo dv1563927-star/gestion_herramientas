@@ -34,8 +34,6 @@ def guardar_herramienta():
                 categoria_herramienta="Construccion"
             case 3:
                 categoria_herramienta="Jardineria"
-            case _:
-                categoria_herramienta:None 
 
     stock_herramienta=validarEntero('Ingrese el stock de la herramienta: ')
     while (stock_herramienta==None):
