@@ -54,5 +54,19 @@
         "accion": "GUARDADO_HERRAMIENTA",
         "descripcion": "Se realizo la creacion de una herramienta",
         "fecha": "2026-02-23 10:56:59.018390"
+    },
+    {
+        "id": 9,
+        "usuario": "Consulta",
+        "accion": "CONSULTAR_STOCK_BAJO",
+        "descripcion": "Se consulto sobre las herramientas con menos stock",
+        "fecha": "2026-02-24 15:55:37.331317"
+    },
+    {
+        "id": 10,
+        "usuario": "Consulta",
+        "accion": "CONSULTAR_PRESTAMOS_FRECUENTES",
+        "descripcion": "Se consulto sobre la cantidad de prestamos de las herramientas",
+        "fecha": "2026-02-24 15:55:52.216989"
     }
 ]

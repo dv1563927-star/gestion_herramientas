@@ -284,3 +284,71 @@ def gestion_prestamos_admin():
             return
     print("Prestamo no encontrado.")
 
+
+def herramientas_menos_stock():
+    herramientas=cargar(HERRAMIENTAS)
+
+    if not herramientas:
+        print("No hay herramientas registradas.")
+        return
+    
+    # Ordeno de menor a mayor stock
+    herramientas_ordenadas= sorted(herramientas, key=lambda h: h["stock"])
+
+    print("\n--- HERRAMIENTAS CON MENOS STOCK ---")
+    for herramienta in herramientas_ordenadas:
+        print(f'''
+            =================================
+            ID:     {herramienta["id"]}
+            Nombre: {herramienta["nombre"]}
+            Stock:  {herramienta["stock"]}
+            =================================
+            ''') 
+    guardarLog("Consulta", "CONSULTAR_STOCK_BAJO", "Se consulto sobre las herramientas con menos stock") 
+    
+          
+def herramientas_mas_prestadas():
+    herramientas=cargar(HERRAMIENTAS)
+    prestamos=cargar(PRESTAMOS)
+
+    if not herramientas:
+        print("No hay herramientas registradas.")
+        return
+
+    if not prestamos:
+        print("No hay prestamos.")
+        return
+    
+    # Contador de solicitudes por herramienta
+    contador={}
+
+    for prestamo in prestamos:
+        id_herramienta=prestamo["id_herramienta"]
+
+        if id_herramienta in contador:
+            contador[id_herramienta]+=1
+        else:
+            contador[id_herramienta] = 1
+
+    # Ordenar herramientas segun cantidad de solicitudes (de mayor a menor)
+    herramientas_ordenadas=sorted(
+        herramientas,
+        key=lambda h: contador.get(h["id"], 0),
+        reverse=True
+    )
+
+    print("\n--- HERRAMIENTAS MAS SOLICITADAS ---")
+
+    for herramienta in herramientas_ordenadas:
+        print(f'''
+            ==============================
+            ID: {herramienta["id"]}
+            Nombre: {herramienta["nombre"]}
+            Solicitudes: {contador.get(herramienta["id"], 0)}
+            ==============================
+            ''')
+
+    guardarLog("Consulta", "CONSULTAR_PRESTAMOS_FRECUENTES", "Se consulto sobre la cantidad de prestamos de las herramientas")
+
+
+

@@ -1,7 +1,7 @@
 from gestionarHerramientas import guardar_herramienta, actualizar_herramienta, eliminar_herramienta, listar_herramienta
 from gestionarUsuarios import actualizar_usuario, eliminar_usuario, listar_usuarios, crear_admin_predeterminado, guardar_usuario, login_admin
 from validaciones import *
-from gestionarPrestamos import gestion_prestamos_admin, crear_solicitud_prestamo, verificar_vencidos, listar_prestamos, devolver_prestamo
+from gestionarPrestamos import gestion_prestamos_admin, crear_solicitud_prestamo, verificar_vencidos, listar_prestamos, devolver_prestamo, herramientas_mas_prestadas, herramientas_menos_stock
 from logs import listarLog
 
 def menuInicio():
@@ -135,8 +135,10 @@ def menu_usuario():
                     1.  Crear una solicitud
                     2.  Devolver un prestamo
                     3.  Listar prestamos
-                    4.  Salir
-                    ''',1,4)
+                    4.  Ver herramientas mas solicitadas
+                    5.  Ver herramientas con menos stock
+                    6.  Salir
+                    ''',1,6)
         match(op5):
             case 1:
                 crear_solicitud_prestamo()
@@ -145,10 +147,14 @@ def menu_usuario():
             case 3:
                 listar_prestamos()
             case 4:
+                herramientas_mas_prestadas()
+            case 5:
+                herramientas_menos_stock()
+            case 6:
                 print("...")
             case _:
                 print("Opcion no valida")
-        if op5==4:
+        if op5==6:
             break
         
 
