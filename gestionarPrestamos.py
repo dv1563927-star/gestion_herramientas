@@ -63,7 +63,8 @@ def crear_solicitud_prestamo():
         "cantidad": cantidad_solicitada,
         "fecha_inicio": str(fecha_inicio.isoformat()),
         "fecha_fin": str(fecha_fin.isoformat()),
-        "estado": "pendiente"
+        "estado": "pendiente",
+        "reporte":[]
     }
 
     prestamos.append(nuevo_prestamo)
@@ -104,6 +105,7 @@ def listar_prestamos():
             Fecha inicio: {elemento["fecha_inicio"]}
             Fecha fin: {elemento["fecha_fin"]}
             Estado: {elemento["estado"]}
+            Reporte: {elemento["reporte"]}
             =============================================
             ''')
         
@@ -138,11 +140,14 @@ def devolver_prestamo():
                 nombre_herramienta = herramienta["nombre"]
                 break
 
-        print(f'''  
+        print(f''' 
+                =============================================== 
                 ID: {prestamo["id"]}
                 Usuario: {nombre_usuario} ID: {prestamo["id_usuario"]}
                 Herramienta: {nombre_herramienta} ID: {prestamo["id_herramienta"]}
-                cantidad: {prestamo["cantidad"]}
+                Cantidad: {prestamo["cantidad"]}
+                Reporte: {prestamo["reporte"]}
+                ===============================================
                 ''')
 
     id_prestamo=validarEntero('Ingrese el ID del prestamo a devolver: ')
@@ -157,13 +162,11 @@ def devolver_prestamo():
             while cantidad_devuelta is None or cantidad_devuelta <=0 or cantidad_devuelta>prestamo["cantidad"]:
                 cantidad_devuelta=validarEntero(f"Error, ingrese un numero valido (max {prestamo['cantidad']}): ")
 
-
             estado_entregado=validarMenu('''
                         Ingrese el estado en el que devuelve la herramienta
                         1.  Buen estado
                         2.  Mal estado
                         ''',1,2)
-            
             for herramienta in herramientas:
                 if herramienta["id"]==prestamo["id_herramienta"]:
 
@@ -174,6 +177,19 @@ def devolver_prestamo():
                         herramienta["estado"]="mal estado"
                         herramienta["stock"]+=cantidad_devuelta
                     break
+            for herramienta in herramientas:
+                if herramienta["id"] == prestamo["id_herramienta"]:
+                    reporte_nuevo=validarMenu('''
+                                Desea añadir un reporte para la herramienta?
+                                1.  Si
+                                2.  No
+                            ''',1,2)
+                    match(reporte_nuevo):
+                        case 1:
+                            reporte_nuevo=input("Porfavor, escriba aqui su reporte: ")
+                            prestamo["reportes"].append(reporte_nuevo)
+                        case 2:
+                            break
 
             prestamo["cantidad"]-=cantidad_devuelta
             if prestamo["cantidad"]==0:
@@ -350,5 +366,25 @@ def herramientas_mas_prestadas():
 
     guardarLog("Consulta", "CONSULTAR_PRESTAMOS_FRECUENTES", "Se consulto sobre la cantidad de prestamos de las herramientas")
 
+def ver_reportes_herramienta(herramientas, prestamos):
+    print("\n--- REPORTES POR HERRAMIENTA ---")
 
+    for herramienta in herramientas:
+        tiene_reporte = False
+
+        for prestamo in prestamos:
+            if (prestamo["id_herramienta"]==herramienta["id"]
+                and "reporte" in prestamo
+                and prestamo["reporte"] != ""):
+
+                if not tiene_reporte:
+                    print(f'''
+                        ======================================
+                        Herramienta:    {herramienta["nombre"]}
+                        ID:             {herramienta["id"]}
+                        ======================================
+                            ''')
+                    tiene_reporte = True
+
+                print(f' - {prestamo["reporte"]}')    
 

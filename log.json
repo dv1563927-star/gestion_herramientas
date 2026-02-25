@@ -1,72 +1,23 @@
 [
     {
         "id": 1,
-        "usuario": "Guardar",
-        "accion": "GUARDADO_ADMIN",
-        "descripcion": "Se realizo la creacion de un administrador de forma predeterminada",
-        "fecha": "2026-02-20 16:38:47.167043"
+        "usuario": "Guardado",
+        "accion": "GUARDADO_HERRAMIENTA",
+        "descripcion": "Se realizo la creacion de una herramienta",
+        "fecha": "2026-02-24 19:41:01.326537"
     },
     {
         "id": 2,
         "usuario": "Guardado",
-        "accion": "GUARDADO_HERRAMIENTA",
-        "descripcion": "Se realizo la creacion de una herramienta",
-        "fecha": "2026-02-20 16:39:39.719559"
+        "accion": "GUARDAR_SOLICITUD_PRESTAMO",
+        "descripcion": "Se realizo la creacion de una solicitud de prestamo para ser revisada por un admin",
+        "fecha": "2026-02-24 19:41:15.827799"
     },
     {
         "id": 3,
-        "usuario": "Eliminacion",
-        "accion": "ELIMINACION_HERRAMIENTA",
-        "descripcion": "Se realizo la eliminacion de una herramienta",
-        "fecha": "2026-02-20 16:40:19.722569"
-    },
-    {
-        "id": 4,
-        "usuario": "Guardado",
-        "accion": "GUARDADO_HERRAMIENTA",
-        "descripcion": "Se realizo la creacion de una herramienta",
-        "fecha": "2026-02-22 07:41:44.717374"
-    },
-    {
-        "id": 5,
-        "usuario": "Guardado",
-        "accion": "GUARDADO_USUARIO",
-        "descripcion": "Se realizo la creacion de un usuario",
-        "fecha": "2026-02-22 07:42:07.793115"
-    },
-    {
-        "id": 6,
-        "usuario": "Guardado",
-        "accion": "GUARDAR_SOLICITUD_PRESTAMO",
-        "descripcion": "Se realizo la creacion de una solicitud de prestamo para ser revisada por un admin",
-        "fecha": "2026-02-22 07:42:29.948355"
-    },
-    {
-        "id": 7,
         "usuario": "Devolucion",
         "accion": "DEVOLUCION_PRESTAMO",
         "descripcion": "Se realizo la devolucion de una herramienta prestada",
-        "fecha": "2026-02-22 07:43:23.509379"
-    },
-    {
-        "id": 8,
-        "usuario": "Guardado",
-        "accion": "GUARDADO_HERRAMIENTA",
-        "descripcion": "Se realizo la creacion de una herramienta",
-        "fecha": "2026-02-23 10:56:59.018390"
-    },
-    {
-        "id": 9,
-        "usuario": "Consulta",
-        "accion": "CONSULTAR_STOCK_BAJO",
-        "descripcion": "Se consulto sobre las herramientas con menos stock",
-        "fecha": "2026-02-24 15:55:37.331317"
-    },
-    {
-        "id": 10,
-        "usuario": "Consulta",
-        "accion": "CONSULTAR_PRESTAMOS_FRECUENTES",
-        "descripcion": "Se consulto sobre la cantidad de prestamos de las herramientas",
-        "fecha": "2026-02-24 15:55:52.216989"
+        "fecha": "2026-02-24 19:46:01.732378"
     }
 ]

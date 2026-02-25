@@ -1,17 +1,10 @@
 [
     {
         "id": 1,
-        "nombre": "Hacha de mano",
+        "nombre": "Martillo",
         "estado de la herramienta": "Buen estado",
         "categoria": "Carpiniteria",
-        "stock": 25,
-        "estado": "buen estado"
-    },
-    {
-        "id": 2,
-        "nombre": "martillo",
-        "estado de la herramienta": null,
-        "categoria": null,
-        "stock": 10
+        "stock": 50,
+        "estado": "mal estado"
     }
 ]
