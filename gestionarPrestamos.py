@@ -18,6 +18,7 @@ def crear_solicitud_prestamo():
 
     id_usuario = validarEntero('Ingrese el ID del usuario: ')
     while id_usuario is None:
+        guardarLog("ID de usuario no valida", "ID_NO_VALIDA", "Se intento ingresear una ID no valida")
         id_usuario = validarEntero('Error, intentelo nuevamente: ')
 
     print('\n--- HERRAMIENTAS DISPONIBLES ---')
@@ -25,6 +26,7 @@ def crear_solicitud_prestamo():
 
     id_herramienta = validarEntero('Ingrese el ID de la herramienta: ')
     while id_herramienta is None:
+        guardarLog("ID de herramienta no valida", "ID_NO_VALIDA", "Se intento ingresear una ID no valida")
         id_herramienta = validarEntero('Error, intentelo nuevamente: ')
 
     herramienta_encontrada = None
@@ -35,22 +37,27 @@ def crear_solicitud_prestamo():
 
     if herramienta_encontrada is None:
         print("Herramienta no encontrada.")
+        guardarLog("Herramienta no encontrada", "HERRAMIENTA_NO_VALIDA", "Se intento ingresar una herramienta no valida")
         return
 
     if herramienta_encontrada["estado de la herramienta"] == "mal estado":
         print("La herramienta esta dañada y no esta disponible.")
+        guardarLog("Herramienta dañada", "HERRAMIENTA_DAÑADA", "Se intento pedir prestada una herramienta en mal estado")
         return
 
     cantidad_solicitada = validarEntero("Ingrese la cantidad que necesita: ")
     while cantidad_solicitada is None or cantidad_solicitada <= 0:
+        guardarLog("Stock no valido", "STOCK_NO_VALIDO", "Se intento ingresear una cantidad no valida")
         cantidad_solicitada = validarEntero("Error, ingrese una cantidad valida: ")
 
     if herramienta_encontrada["stock"] < cantidad_solicitada:
         print("No hay suficiente stock para realizar la solicitud.")
+        guardarLog("Stock insuficiente", "STOCK_NO_VALIDO", "Se intento ingresar una cantidad no valida")
         return
 
     dias = validarEntero('Ingrese la cantidad de dias que necesita la herramienta: ')
     while dias is None or dias <= 0:
+        guardarLog("Fecha", "FECHA_NO_VALIDA", "Se intento ingresear una fecha no valida")
         dias = validarEntero('Error, intentelo nuevamente: ')
 
     fecha_inicio = datetime.now()
@@ -80,6 +87,7 @@ def listar_prestamos():
 
     if not prestamos:
         print("No hay prestamos guardados.")
+        guardarLog("Listar prestamos inexistentes", "LISTAR_FALLIDO", "Se intento listar los prestamos que no existen")
         return
     
     for prestamo in prestamos:
@@ -122,6 +130,7 @@ def devolver_prestamo():
     
     if not prestamos_activos:
         print("No hay prestamos activos para devolver.")
+        guardarLog("Prestamo inexistente", "PRESTAMO_NO_VALIDO", "Se intento ingresear devolver un prestamo que no existe")
         return
     
     print("Prestamos activos: ")
@@ -152,6 +161,7 @@ def devolver_prestamo():
 
     id_prestamo=validarEntero('Ingrese el ID del prestamo a devolver: ')
     while id_prestamo==None:
+        guardarLog("ID no valida", "ID_NO_VALIDA", "Se intento ingresear una ID no valida")
         id_prestamo=validarEntero('Error, intentelo nuevamente: ')
 
     for prestamo in prestamos_activos:
@@ -160,6 +170,7 @@ def devolver_prestamo():
             print(f'Cantidad prestada: {prestamo["cantidad"]}')
             cantidad_devuelta=validarEntero('Ingrese la cantidad de herramientas que va a devolver: ')
             while cantidad_devuelta is None or cantidad_devuelta <=0 or cantidad_devuelta>prestamo["cantidad"]:
+                guardarLog("Cantidad devuelta no valida", "CANTIDAD_NO_VALIDA", "Se intento ingresar una cantidad no valida")
                 cantidad_devuelta=validarEntero(f"Error, ingrese un numero valido (max {prestamo['cantidad']}): ")
 
             estado_entregado=validarMenu('''
@@ -187,7 +198,7 @@ def devolver_prestamo():
                     match(reporte_nuevo):
                         case 1:
                             reporte_nuevo=input("Porfavor, escriba aqui su reporte: ")
-                            prestamo["reportes"].append(reporte_nuevo)
+                            prestamo["reporte"].append(reporte_nuevo)
                         case 2:
                             break
 
@@ -260,6 +271,7 @@ def gestion_prestamos_admin():
         
     id_prestamo=validarEntero('Ingrese el ID del prestamo a gestionar: ')
     while id_prestamo==None:
+        guardarLog("ID de prestamo no valida", "ID_NO_VALIDA", "Se intento ingresear una ID no valida")
         id_prestamo=validarEntero('Error, intentelo nuevamente: ')
 
     for prestamo in pendientes:

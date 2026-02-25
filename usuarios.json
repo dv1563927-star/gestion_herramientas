@@ -13,7 +13,7 @@
         "nombre": "Daniel",
         "apellido": "Vargas",
         "telefono": "12345",
-        "direccion": "Casa 1",
+        "direccion": "casa 1",
         "tipo de usuario": "usuario"
     }
 ]

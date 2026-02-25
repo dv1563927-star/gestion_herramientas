@@ -1,23 +1,44 @@
 [
     {
         "id": 1,
-        "usuario": "Guardado",
-        "accion": "GUARDADO_HERRAMIENTA",
-        "descripcion": "Se realizo la creacion de una herramienta",
-        "fecha": "2026-02-24 19:41:01.326537"
+        "usuario": "Guardar",
+        "accion": "GUARDADO_ADMIN",
+        "descripcion": "Se realizo la creacion de un administrador de forma predeterminada",
+        "fecha": "2026-02-25 11:06:50.256579"
     },
     {
         "id": 2,
-        "usuario": "Guardado",
-        "accion": "GUARDAR_SOLICITUD_PRESTAMO",
-        "descripcion": "Se realizo la creacion de una solicitud de prestamo para ser revisada por un admin",
-        "fecha": "2026-02-24 19:41:15.827799"
+        "usuario": "Acceso no valido",
+        "accion": "ACCESO_DENEGADO",
+        "descripcion": "Se intento de manera fallida el ingreso como administrador",
+        "fecha": "2026-02-25 11:18:39.133653"
     },
     {
         "id": 3,
-        "usuario": "Devolucion",
-        "accion": "DEVOLUCION_PRESTAMO",
-        "descripcion": "Se realizo la devolucion de una herramienta prestada",
-        "fecha": "2026-02-24 19:46:01.732378"
+        "usuario": "Guardado",
+        "accion": "GUARDADO_USUARIO",
+        "descripcion": "Se realizo la creacion de un usuario",
+        "fecha": "2026-02-25 11:21:45.390588"
+    },
+    {
+        "id": 4,
+        "usuario": "Guardado",
+        "accion": "GUARDADO_HERRAMIENTA",
+        "descripcion": "Se realizo la creacion de una herramienta",
+        "fecha": "2026-02-25 11:21:53.722025"
+    },
+    {
+        "id": 5,
+        "usuario": "Herramienta no encontrada",
+        "accion": "HERRAMIENTA_NO_VALIDA",
+        "descripcion": "Se intento ingresar una herramienta no valida",
+        "fecha": "2026-02-25 11:22:00.380749"
+    },
+    {
+        "id": 6,
+        "usuario": "Prestamo inexistente",
+        "accion": "PRESTAMO_NO_VALIDO",
+        "descripcion": "Se intento ingresear devolver un prestamo que no existe",
+        "fecha": "2026-02-25 11:22:33.618972"
     }
 ]

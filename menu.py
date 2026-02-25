@@ -2,7 +2,7 @@ from gestionarHerramientas import guardar_herramienta, actualizar_herramienta, e
 from gestionarUsuarios import actualizar_usuario, eliminar_usuario, listar_usuarios, crear_admin_predeterminado, guardar_usuario, login_admin
 from validaciones import *
 from gestionarPrestamos import gestion_prestamos_admin, crear_solicitud_prestamo, verificar_vencidos, listar_prestamos, devolver_prestamo, herramientas_mas_prestadas, herramientas_menos_stock
-from logs import listarLog
+from logs import listarLog, guardarLog
 from gestionarJson import cargar, guardar, generar_id
 from gestionarPrestamos import ver_reportes_herramienta
 
@@ -25,6 +25,7 @@ def menuInicio():
                     menu_admin()
                 else:
                     print("Acceso denegado!")
+                    guardarLog("Acceso no valido", "ACCESO_DENEGADO", "Se intento de manera fallida el ingreso como administrador")
             case 2:
                 menu_usuario()
             case 3:
